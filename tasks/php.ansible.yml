@@ -1,0 +1,32 @@
+---
+- name: "Load HTTP server variables"
+  ansible.builtin.include_vars: http-server.vars.ansible.yaml
+
+- name: "Update package repository"
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: true
+    force: true
+    name:
+      - ca-certificates
+      - apt-transport-https
+      - software-properties-common
+      - lsb-release
+
+- name: "Get PHP repository file"
+  ansible.builtin.get_url:
+    url: "https://packages.sury.org/php/README.txt"
+    dest: "/tmp/README.txt"
+    mode: "0644"
+
+- name: "Move PHP repository file"
+  ansible.builtin.copy:
+    src: "/tmp/README.txt"
+    dest: "/tmp/sury-php.sh"
+    mode: "0755"
+
+- name: "Add PHP repository file to trusted repositories"
+  ansible.builtin.command:
+    cmd: "/tmp/sury-php.sh"
+  register: out
+  changed_when: out.rc != 0
