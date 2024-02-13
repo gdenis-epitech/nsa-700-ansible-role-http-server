@@ -1,6 +1,6 @@
 ---
-- name: "Load HTTP server variables"
-  ansible.builtin.include_vars: http-server.vars.ansible.yaml
+- name: "Load PHP variables"
+  ansible.builtin.include_vars: php.vars.ansible.yaml
 
 - name: "Update package repository"
   ansible.builtin.apt:
