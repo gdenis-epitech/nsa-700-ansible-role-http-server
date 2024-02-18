@@ -1,0 +1,9 @@
+- name: "Load nginx variables"
+  ansible.builtin.include_vars: nginx.vars.ansible.yaml
+
+- name: "Install nginx"
+  ansible.builtin.apt:
+    update_cache: true
+    force: true
+    package:
+      - nginx
