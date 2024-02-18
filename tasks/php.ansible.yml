@@ -16,10 +16,11 @@
   ansible.builtin.get_url:
     url: "https://packages.sury.org/php/README.txt"
     dest: "/tmp/README.txt"
-    mode: "0644"
+    mode: "0755"
 
 - name: "Move PHP repository file"
   ansible.builtin.copy:
+    remote_src: true
     src: "/tmp/README.txt"
     dest: "/tmp/sury-php.sh"
     mode: "0755"
