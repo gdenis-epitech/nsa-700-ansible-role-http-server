@@ -36,10 +36,10 @@
     update_cache: true
     force: true
     package:
-      - php{{ php_version }}
-      - php{{ php_version }}-cli
-      - php{{ php_version }}-fpm
-      - php{{ php_version }}-curl
-      - php{{ php_version }}-bz2
-      - php{{ php_version }}-mbstring
-      - php{{ php_version }}-intl
+      - php{{ http_php_version }}
+      - php{{ http_php_version }}-cli
+      - php{{ http_php_version }}-fpm
+      - php{{ http_php_version }}-curl
+      - php{{ http_php_version }}-bz2
+      - php{{ http_php_version }}-mbstring
+      - php{{ http_php_version }}-intl
