@@ -1,0 +1,22 @@
+- name: "Copy app to server"
+  ansible.builtin.copy:
+    src: files/app
+    dest: /var/www/app
+    owner: www-data
+    group: www-data
+    mode: "0644"
+
+- name: "Install composer dependencies"
+  community.general.composer:
+    command: install
+    working_dir: /var/www/app
+  environment:
+    COMPOSER_NO_INTERACTION: "1"
+    COMPOSER_ALLOW_SUPERUSER: "1"
+
+- name: "Run Artisan"
+  ansible.builtin.command:
+    chdir: /var/www/app
+    cmd: "php artisan"
+  register: out
+  changed_when: out.rc != 0
