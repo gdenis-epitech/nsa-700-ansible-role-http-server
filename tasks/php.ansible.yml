@@ -5,9 +5,8 @@
 - name: "Update package repository"
   ansible.builtin.apt:
     update_cache: true
-    upgrade: true
     force: true
-    name:
+    package:
       - ca-certificates
       - apt-transport-https
       - software-properties-common
