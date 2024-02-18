@@ -11,14 +11,6 @@
     group: www-data
     mode: "0644"
 
-- name: "Update composer dependencies"
-  community.general.composer:
-    command: update
-    working_dir: /var/www/app
-  environment:
-    COMPOSER_NO_INTERACTION: "1"
-    COMPOSER_ALLOW_SUPERUSER: "1"
-
 - name: "Update application .env"
   ansible.builtin.template:
     src: files/laravel.env.j2
@@ -26,6 +18,14 @@
     owner: www-data
     group: www-data
     mode: "0644"
+
+- name: "Update composer dependencies"
+  community.general.composer:
+    command: update
+    working_dir: /var/www/app
+  environment:
+    COMPOSER_NO_INTERACTION: "1"
+    COMPOSER_ALLOW_SUPERUSER: "1"
 
 - name: "Generate app encryption key"
   ansible.builtin.command:
