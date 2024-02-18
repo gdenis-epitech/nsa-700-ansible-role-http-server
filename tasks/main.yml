@@ -1,3 +1,4 @@
 ---
 - ansible.builtin.include_tasks: php.ansible.yml
+- ansible.builtin.include_tasks: composer.ansible.yml
 - ansible.builtin.include_tasks: nginx.ansible.yml

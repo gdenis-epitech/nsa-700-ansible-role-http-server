@@ -1,0 +1,19 @@
+- name: "Install package dependencies"
+  ansible.builtin.apt:
+    update_cache: true
+    force: true
+    package:
+      - git
+      - unzip
+
+- name: "Download Composer install script"
+  ansible.builtin.get_url:
+    url: https://getcomposer.org/installer
+    dest: /home/ansible/composer-setup.php
+    mode: "0755"
+
+- name: "Run Composer install script"
+  ansible.builtin.command:
+    cmd: "php composer-setup.php --install-dir=/usr/bin --filename=composer"
+  register: out
+  changed_when: out.rc != 0

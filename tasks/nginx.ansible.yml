@@ -10,9 +10,17 @@
 
 - name: "Update nginx configuration for php-fpm"
   ansible.builtin.copy:
-    src: files/default.nginx
-    dest: /etc/nginx/sites-available/default
+    src: files/app.nginx
+    dest: /etc/nginx/sites-available
     mode: "0755"
+
+- name: "Symlink from sites-available to sites-enabled"
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/app.nginx
+    dest: /etc/nginx/sites-enabled/
+    owner: www-data
+    group: www-data
+    state: link
 
 - name: "Validate nginx configuration"
   ansible.builtin.command:
