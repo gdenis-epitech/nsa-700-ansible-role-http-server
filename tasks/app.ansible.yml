@@ -21,7 +21,7 @@
 
 - name: "Update application .env"
   ansible.builtin.copy:
-    src: files/app/laravel.env.j2
+    src: files/laravel.env.j2
     dest: /var/www/app/.env
     owner: www-data
     group: www-data
