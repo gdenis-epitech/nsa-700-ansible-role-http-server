@@ -14,6 +14,17 @@
     dest: /etc/nginx/sites-available/default
     mode: "0755"
 
+- name: "Validate nginx configuration"
+  ansible.builtin.command:
+    cmd: "nginx -t"
+  register: out
+  changed_when: out.rc != 0
+
+- name: "Restart nginx with configuration updates"
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+
 - name: "Add php test info file"
   ansible.builtin.copy:
     src: files/info.php
