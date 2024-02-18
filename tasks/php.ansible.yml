@@ -44,3 +44,5 @@
       - php{{ http_php_version }}-bz2
       - php{{ http_php_version }}-mbstring
       - php{{ http_php_version }}-intl
+      - php{{ http_php_version }}-xml
+      - php{{ http_php_version }}-bcmath
