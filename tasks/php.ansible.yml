@@ -39,6 +39,7 @@
       - php{{ http_php_version }}
       - php{{ http_php_version }}-cli
       - php{{ http_php_version }}-fpm
+      - php{{ http_php_version }}-mysql
       - php{{ http_php_version }}-curl
       - php{{ http_php_version }}-bz2
       - php{{ http_php_version }}-mbstring
