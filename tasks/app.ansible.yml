@@ -1,14 +1,15 @@
 - name: "Copy app to server"
   ansible.builtin.copy:
-    src: files/app
-    dest: /var/www/app
+    src: files/app/
+    dest: /var/www/app/
+    directory_mode:
     owner: www-data
     group: www-data
     mode: "0644"
 
-- name: "Install composer dependencies"
+- name: "Update composer dependencies"
   community.general.composer:
-    command: install
+    command: update
     working_dir: /var/www/app
   environment:
     COMPOSER_NO_INTERACTION: "1"
