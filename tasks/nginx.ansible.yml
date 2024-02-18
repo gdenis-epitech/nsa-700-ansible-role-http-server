@@ -24,9 +24,3 @@
   ansible.builtin.service:
     name: nginx
     state: restarted
-
-- name: "Add php test info file"
-  ansible.builtin.copy:
-    src: files/info.php
-    dest: /var/www/html/info.php
-    mode: "0755"
