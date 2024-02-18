@@ -2,7 +2,7 @@
 - name: "Load PHP variables"
   ansible.builtin.include_vars: php.vars.ansible.yaml
 
-- name: "Update package repository"
+- name: "Install package dependencies"
   ansible.builtin.apt:
     update_cache: true
     force: true
@@ -30,3 +30,16 @@
     cmd: "/tmp/sury-php.sh"
   register: out
   changed_when: out.rc != 0
+
+- name: "Install php and php modules"
+  ansible.builtin.apt:
+    update_cache: true
+    force: true
+    package:
+      - php{{ php_version }}
+      - php{{ php_version }}-cli
+      - php{{ php_version }}-fpm
+      - php{{ php_version }}-curl
+      - php{{ php_version }}-bz2
+      - php{{ php_version }}-mbstring
+      - php{{ php_version }}-intl
