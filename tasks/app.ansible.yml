@@ -31,8 +31,6 @@
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan key:generate"
-  register: out
-  changed_when: out.rc != 0
 
 - name: "Clear artisan cache"
   ansible.builtin.command:
