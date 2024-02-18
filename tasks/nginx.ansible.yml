@@ -7,3 +7,15 @@
     force: true
     package:
       - nginx
+
+- name: "Update nginx configuration for php-fpm"
+  ansible.builtin.copy:
+    src: files/default.nginx
+    dest: /etc/nginx/sites-available/default
+    mode: "0755"
+
+- name: "Add php test info file"
+  ansible.builtin.copy:
+    src: files/info.php
+    dest: /var/www/html/
+    mode: "0755"
