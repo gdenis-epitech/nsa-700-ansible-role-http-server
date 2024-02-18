@@ -1,3 +1,7 @@
+---
+- name: "Load app variables"
+  ansible.builtin.include_vars: app.vars.ansible.yaml
+
 - name: "Copy app to server"
   ansible.builtin.copy:
     src: files/app/
@@ -15,9 +19,24 @@
     COMPOSER_NO_INTERACTION: "1"
     COMPOSER_ALLOW_SUPERUSER: "1"
 
-- name: "Run Artisan"
+- name: "Update application .env"
+  ansible.builtin.copy:
+    src: files/app/laravel.env.j2
+    dest: /var/www/app/.env
+    owner: www-data
+    group: www-data
+    mode: "0644"
+
+- name: "Generate app encryption key"
   ansible.builtin.command:
     chdir: /var/www/app
-    cmd: "php artisan"
+    cmd: "php artisan key:generate"
+  register: out
+  changed_when: out.rc != 0
+
+- name: "Clear artisan cache"
+  ansible.builtin.command:
+    chdir: /var/www/app
+    cmd: "php artisan config:cache"
   register: out
   changed_when: out.rc != 0
