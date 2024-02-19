@@ -26,12 +26,14 @@
     state: link
 
 - name: "Validate nginx configuration"
+  become: true
   ansible.builtin.command:
     cmd: "nginx -t"
   register: out
   changed_when: out.rc != 0
 
 - name: "Restart nginx with configuration updates"
+  become: true
   ansible.builtin.service:
     name: nginx
     state: restarted
