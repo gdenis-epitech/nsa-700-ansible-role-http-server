@@ -41,6 +41,11 @@
     command: update
     working_dir: /var/www/app
 
+- name: "Install composer dependencies"
+  community.general.composer:
+    command: install
+    working_dir: /var/www/app
+
 - name: "Generate app encryption key"
   ansible.builtin.command:
     chdir: /var/www/app
