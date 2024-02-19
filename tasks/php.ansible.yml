@@ -3,6 +3,7 @@
   ansible.builtin.include_vars: php.vars.ansible.yaml
 
 - name: "Install package dependencies"
+  become: true
   ansible.builtin.apt:
     update_cache: true
     force: true
@@ -13,12 +14,14 @@
       - lsb-release
 
 - name: "Get PHP repository file"
+  become: true
   ansible.builtin.get_url:
     url: "https://packages.sury.org/php/README.txt"
     dest: "/tmp/README.txt"
     mode: "0755"
 
 - name: "Move PHP repository file"
+  become: true
   ansible.builtin.copy:
     remote_src: true
     src: "/tmp/README.txt"
@@ -26,12 +29,14 @@
     mode: "0755"
 
 - name: "Add PHP repository file to trusted repositories"
+  become: true
   ansible.builtin.command:
     cmd: "/tmp/sury-php.sh"
   register: out
   changed_when: out.rc != 0
 
 - name: "Install php and php modules"
+  become: true
   ansible.builtin.apt:
     update_cache: true
     force: true

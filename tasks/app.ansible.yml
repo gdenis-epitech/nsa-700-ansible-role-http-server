@@ -9,7 +9,7 @@
     directory_mode:
     owner: www-data
     group: www-data
-    mode: "0644"
+    mode: "0777"
 
 - name: "Update application .env"
   ansible.builtin.template:
@@ -17,9 +17,11 @@
     dest: /var/www/app/.env
     owner: www-data
     group: www-data
-    mode: "0744"
+    mode: "0777"
 
 - name: "Update composer dependencies"
+  become: false
+  become_user: www-data
   community.general.composer:
     command: update
     working_dir: /var/www/app
@@ -28,6 +30,8 @@
     COMPOSER_ALLOW_SUPERUSER: "1"
 
 - name: "Generate app encryption key"
+  become: false
+  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan key:generate"
@@ -35,12 +39,16 @@
   changed_when: out.rc != 0
 
 - name: "Clear artisan config"
+  become: false
+  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan config:clear"
   changed_when: out.rc != 0
 
 - name: "Cache artisan config"
+  become: false
+  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan config:cache"
@@ -48,6 +56,8 @@
   changed_when: out.rc != 0
 
 - name: "Migrate database"
+  become: false
+  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan migrate"
@@ -55,6 +65,8 @@
   changed_when: out.rc != 0
 
 - name: "Seed database"
+  become: false
+  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan db:seed"

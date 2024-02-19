@@ -2,6 +2,7 @@
   ansible.builtin.include_vars: nginx.vars.ansible.yaml
 
 - name: "Install nginx"
+  become: true
   ansible.builtin.apt:
     update_cache: true
     force: true
@@ -12,6 +13,8 @@
   ansible.builtin.copy:
     src: files/app.nginx
     dest: /etc/nginx/sites-available/app
+    owner: www-data
+    group: www-data
     mode: "0755"
 
 - name: "Symlink from sites-available to sites-enabled"
