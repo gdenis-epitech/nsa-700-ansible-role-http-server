@@ -12,7 +12,7 @@
 - name: "Obtain app from remote repository"
   become: true
   ansible.builtin.git:
-    repo: http://192.168.56.1/nsa-700/laravel-app.git
+    repo: http://192.168.56.1:8080/nsa-700/laravel-app.git
     dest: /var/www/app
     version: develop
 
