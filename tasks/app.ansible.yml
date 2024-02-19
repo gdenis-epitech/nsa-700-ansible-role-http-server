@@ -8,6 +8,7 @@
     force: true
     name:
       - git
+      - acl
 
 - name: "Obtain app from remote repository"
   become: true
@@ -15,6 +16,7 @@
     repo: http://192.168.56.1:8080/nsa-700/laravel-app.git
     dest: /var/www/app
     version: develop
+    force: true
 
 - name: "Set permissions on application"
   become: true
