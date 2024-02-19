@@ -17,9 +17,15 @@
 - name: "Run Composer install script"
   become: true
   ansible.builtin.command:
-    cmd: "php composer-setup.php --install-dir=/usr/bin --filename=composer"
+    cmd: "php composer-setup.php --install-dir=/usr/local/bin --filename=composer"
   register: out
   changed_when: out.rc != 0
+
+- name: "Set Composer global permissions"
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/bin/composer
+    mode: a+x
 
 - name: "Remove Composer install script"
   become: true

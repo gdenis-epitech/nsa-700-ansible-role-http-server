@@ -2,40 +2,43 @@
 - name: "Load app variables"
   ansible.builtin.include_vars: app.vars.ansible.yaml
 
-- name: "Copy app to server"
+- name: "Install package dependencies"
   become: true
-  ansible.builtin.copy:
-    src: files/app/
-    dest: /var/www/app/
-    directory_mode:
+  ansible.builtin.apt:
+    force: true
+    name:
+      - git
+
+- name: "Obtain app from remote repository"
+  become: true
+  ansible.builtin.git:
+    repo: http://192.168.56.1/nsa-700/laravel-app.git
+    dest: /var/www/app
+    version: develop
+
+- name: "Set permissions on application"
+  become: true
+  ansible.builtin.file:
+    path: /var/www/app
+    recurse: true
     owner: www-data
     group: www-data
     mode: "0777"
 
 - name: "Update application .env"
-  become: true
   ansible.builtin.template:
     src: files/laravel.env.j2
     dest: /var/www/app/.env
     owner: www-data
     group: www-data
-    mode: "0755"
+    mode: "0777"
 
 - name: "Update composer dependencies"
   become: true
-  become_user: ansible
+  become_user: www-data
   community.general.composer:
     command: update
     working_dir: /var/www/app
-
-- name: "Set correct permissions for nginx"
-  become: true
-  ansible.builtin.file:
-    path: /var/www/app
-    owner: www-data
-    group: www-data
-    mode: "0755"
-    recurse: true
 
 - name: "Generate app encryption key"
   become: true
@@ -47,7 +50,7 @@
   changed_when: out.rc != 0
 
 - name: "Clear artisan config"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -55,7 +58,7 @@
   changed_when: out.rc != 0
 
 - name: "Cache artisan config"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -64,7 +67,7 @@
   changed_when: out.rc != 0
 
 - name: "Migrate database"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -73,7 +76,7 @@
   changed_when: out.rc != 0
 
 - name: "Seed database"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
