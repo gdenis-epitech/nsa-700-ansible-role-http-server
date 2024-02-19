@@ -4,7 +4,6 @@
 
 - name: "Install package dependencies"
   ansible.builtin.apt:
-    update_cache: true
     force: true
     package:
       - ca-certificates

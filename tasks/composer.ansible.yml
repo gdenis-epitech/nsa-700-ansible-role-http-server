@@ -17,3 +17,8 @@
     cmd: "php composer-setup.php --install-dir=/usr/bin --filename=composer"
   register: out
   changed_when: out.rc != 0
+
+- name: "Remove Composer install script"
+  ansible.builtin.file:
+    path: /home/ansible/composer-setup.php
+    state: absent
