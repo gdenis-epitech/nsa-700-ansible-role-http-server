@@ -3,6 +3,7 @@
   ansible.builtin.include_vars: app.vars.ansible.yaml
 
 - name: "Copy app to server"
+  become: true
   ansible.builtin.copy:
     src: files/app/
     dest: /var/www/app/
@@ -12,6 +13,7 @@
     mode: "0777"
 
 - name: "Update application .env"
+  become: true
   ansible.builtin.template:
     src: files/laravel.env.j2
     dest: /var/www/app/.env
