@@ -46,3 +46,17 @@
     cmd: "php artisan config:cache"
   register: out
   changed_when: out.rc != 0
+
+- name: "Migrate database"
+  ansible.builtin.command:
+    chdir: /var/www/app
+    cmd: "php artisan migrate"
+  register: out
+  changed_when: out.rc != 0
+
+- name: "Seed database"
+  ansible.builtin.command:
+    chdir: /var/www/app
+    cmd: "php artisan db:seed"
+  register: out
+  changed_when: out.rc != 0
