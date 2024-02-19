@@ -26,6 +26,7 @@
     mode: "0777"
 
 - name: "Update application .env"
+  become: true
   ansible.builtin.template:
     src: files/laravel.env.j2
     dest: /var/www/app/.env

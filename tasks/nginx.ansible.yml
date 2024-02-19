@@ -32,6 +32,13 @@
   register: out
   changed_when: out.rc != 0
 
+- name: "Add ansible user to www-data group"
+  become: true
+  ansible.builtin.user:
+    name: ansible
+    group: www-data
+    state: present
+
 - name: "Restart nginx with configuration updates"
   become: true
   ansible.builtin.service:
