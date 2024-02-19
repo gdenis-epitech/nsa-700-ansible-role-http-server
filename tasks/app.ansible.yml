@@ -19,7 +19,7 @@
     dest: /var/www/app/.env
     owner: www-data
     group: www-data
-    mode: "0777"
+    mode: "0755"
 
 - name: "Update composer dependencies"
   become: true
@@ -27,9 +27,15 @@
   community.general.composer:
     command: update
     working_dir: /var/www/app
-  environment:
-    COMPOSER_NO_INTERACTION: "1"
-    COMPOSER_ALLOW_SUPERUSER: "1"
+
+- name: "Set correct permissions for nginx"
+  become: true
+  ansible.builtin.file:
+    path: /var/www/app
+    owner: www-data
+    group: www-data
+    mode: "0755"
+    recurse: true
 
 - name: "Generate app encryption key"
   become: true
@@ -41,7 +47,7 @@
   changed_when: out.rc != 0
 
 - name: "Clear artisan config"
-  become: true
+  become: false
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -49,7 +55,7 @@
   changed_when: out.rc != 0
 
 - name: "Cache artisan config"
-  become: true
+  become: false
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -58,7 +64,7 @@
   changed_when: out.rc != 0
 
 - name: "Migrate database"
-  become: true
+  become: false
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -67,7 +73,7 @@
   changed_when: out.rc != 0
 
 - name: "Seed database"
-  become: true
+  become: false
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
