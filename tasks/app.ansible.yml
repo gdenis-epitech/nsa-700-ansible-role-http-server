@@ -9,13 +9,8 @@
     name:
       - git
 
-- name: "Configure git to allow clone"
-  ansible.builtin.command:
-    cmd: "git config --global --add safe.directory /var/www/app"
-  register: out
-  changed_when: out.rc != 0
-
 - name: "Obtain app from remote repository"
+  become: true
   ansible.builtin.git:
     repo: http://192.168.56.1:8080/nsa-700/laravel-app.git
     dest: /var/www/app
