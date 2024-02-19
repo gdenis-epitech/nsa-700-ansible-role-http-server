@@ -30,11 +30,13 @@
 - name: "Generate app encryption key"
   ansible.builtin.command:
     chdir: /var/www/app
-    cmd: "php artisan key:generate"
+    cmd: "sudo php artisan key:generate"
+  register: out
+  changed_when: out.rc != 0
 
 - name: "Clear artisan cache"
   ansible.builtin.command:
     chdir: /var/www/app
-    cmd: "php artisan config:cache"
+    cmd: "sudo php artisan config:cache"
   register: out
   changed_when: out.rc != 0
