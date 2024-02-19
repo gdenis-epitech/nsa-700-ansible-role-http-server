@@ -36,9 +36,9 @@
     group: www-data
     mode: "0777"
 
-- name: "Install composer dependencies"
+- name: "Update composer dependencies"
   community.general.composer:
-    command: install
+    command: update
     working_dir: /var/www/app
 
 - name: "Generate app encryption key"
