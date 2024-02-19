@@ -22,7 +22,7 @@
     mode: "0777"
 
 - name: "Update composer dependencies"
-  become: false
+  become: true
   become_user: www-data
   community.general.composer:
     command: update
@@ -32,7 +32,7 @@
     COMPOSER_ALLOW_SUPERUSER: "1"
 
 - name: "Generate app encryption key"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -41,7 +41,7 @@
   changed_when: out.rc != 0
 
 - name: "Clear artisan config"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -49,7 +49,7 @@
   changed_when: out.rc != 0
 
 - name: "Cache artisan config"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -58,7 +58,7 @@
   changed_when: out.rc != 0
 
 - name: "Migrate database"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
@@ -67,7 +67,7 @@
   changed_when: out.rc != 0
 
 - name: "Seed database"
-  become: false
+  become: true
   become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
