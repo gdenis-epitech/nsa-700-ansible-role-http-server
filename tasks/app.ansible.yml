@@ -37,15 +37,11 @@
     mode: "0777"
 
 - name: "Install composer dependencies"
-  become: true
-  become_user: www-data
   community.general.composer:
     command: install
     working_dir: /var/www/app
 
 - name: "Generate app encryption key"
-  become: true
-  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan key:generate"
@@ -53,8 +49,6 @@
   changed_when: out.rc != 0
 
 - name: "Clear artisan config"
-  become: true
-  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan config:clear"
@@ -62,8 +56,6 @@
   changed_when: out.rc != 0
 
 - name: "Cache artisan config"
-  become: true
-  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan config:cache"
@@ -71,8 +63,6 @@
   changed_when: out.rc != 0
 
 - name: "Migrate database"
-  become: true
-  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan migrate"
@@ -80,8 +70,6 @@
   changed_when: out.rc != 0
 
 - name: "Seed database"
-  become: true
-  become_user: www-data
   ansible.builtin.command:
     chdir: /var/www/app
     cmd: "php artisan db:seed"
