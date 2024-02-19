@@ -34,9 +34,15 @@
   register: out
   changed_when: out.rc != 0
 
-- name: "Clear artisan cache"
+- name: "Clear artisan config"
   ansible.builtin.command:
     chdir: /var/www/app
-    cmd: "php artisan config:clear && php artisan config:cache"
+    cmd: "php artisan config:clear"
+  changed_when: out.rc != 0
+
+- name: "Cache artisan config"
+  ansible.builtin.command:
+    chdir: /var/www/app
+    cmd: "php artisan config:cache"
   register: out
   changed_when: out.rc != 0
