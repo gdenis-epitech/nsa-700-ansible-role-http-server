@@ -17,7 +17,7 @@
     dest: /var/www/app/.env
     owner: www-data
     group: www-data
-    mode: "0644"
+    mode: "0744"
 
 - name: "Update composer dependencies"
   community.general.composer:
@@ -30,13 +30,13 @@
 - name: "Generate app encryption key"
   ansible.builtin.command:
     chdir: /var/www/app
-    cmd: "sudo php artisan key:generate"
+    cmd: "php artisan key:generate"
   register: out
   changed_when: out.rc != 0
 
 - name: "Clear artisan cache"
   ansible.builtin.command:
     chdir: /var/www/app
-    cmd: "sudo php artisan config:cache"
+    cmd: "php artisan config:clear && php artisan config:cache"
   register: out
   changed_when: out.rc != 0
