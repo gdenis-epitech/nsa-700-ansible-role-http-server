@@ -23,6 +23,7 @@
 
 - name: "Update composer dependencies"
   become: true
+  become_user: ansible
   community.general.composer:
     command: update
     working_dir: /var/www/app
