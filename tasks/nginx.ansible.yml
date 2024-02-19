@@ -10,6 +10,7 @@
       - nginx
 
 - name: "Update nginx configuration for php-fpm"
+  become: true
   ansible.builtin.copy:
     src: files/app.nginx
     dest: /etc/nginx/sites-available/app
@@ -18,6 +19,7 @@
     mode: "0755"
 
 - name: "Symlink from sites-available to sites-enabled"
+  become: true
   ansible.builtin.file:
     src: /etc/nginx/sites-available/app
     dest: /etc/nginx/sites-enabled/app
