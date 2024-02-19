@@ -45,7 +45,7 @@
   community.general.composer:
     command: install
     working_dir: /var/www/app
-    arguments: --dev
+    no_dev: false
 
 - name: "Generate app encryption key"
   ansible.builtin.command:
