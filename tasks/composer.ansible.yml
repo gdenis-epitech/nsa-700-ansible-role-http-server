@@ -1,4 +1,5 @@
 - name: "Install package dependencies"
+  become: true
   ansible.builtin.apt:
     update_cache: true
     force: true
